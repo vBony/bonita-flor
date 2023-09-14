@@ -1,0 +1,17 @@
+{
+    "name": "conta/bonita-flor",
+    "autoload": {
+        "psr-4": {
+            "Conta\\BonitaFlor\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Vinicius de Assis Ferreira",
+            "email": "vini_07-ferreira@hotmail.com"
+        }
+    ],
+    "require-dev": {
+        "symfony/dotenv": "^6.3"
+    }
+}
