@@ -43,7 +43,7 @@
                      <div class="full">
                         <div class="center-desk">
                            <div class="logo">
-                              <h1>Bonita Flor 🌷</h1> 
+                              <h1>BONITA FLOR 🌷</h1> 
                            </div>
                         </div>
                      </div>
@@ -56,13 +56,13 @@
                         <div class="collapse navbar-collapse" id="navbarsExample04">
                            <ul class="navbar-nav mr-auto">
                               <li class="nav-item active">
-                                 <a class="nav-link" href="index.html">Home</a>
+                                 <a class="nav-link" href="index.html">Início</a>
                               </li>
                               <li class="nav-item">
-                                 <a class="nav-link" href="about.html">About</a>
+                                 <a class="nav-link" href="about.html">Sobre</a>
                               </li>
                               <li class="nav-item">
-                                 <a class="nav-link" href="we-do.html">What we do</a>
+                                 <a class="nav-link" href="we-do.html">Serviços</a>
                               </li>
                            </ul>
                         </div>
@@ -73,7 +73,7 @@
                         <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
                         <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
                         <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
-                        <li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+                        <li><a href="https://www.instagram.com/anna.julia_nails/?hl=pt-br"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
                      </ul>
                   </div>
                </div>
@@ -91,9 +91,9 @@
                </div>
                <div class="col-md-6">
                   <span></span>
-                  <h1>Milina nail Salon Creating Beauty</h1>
+                  <h1>Bonita flor studio</h1>
                   <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempo</p>
-                  <a class="get_btn" href="Javascript:void(0)" role="button">Get Appoinment</a>
+                  <a class="get_btn" href="Javascript:void(0)" role="button">Agendamento</a>
                </div>
             </div>
          </div>
@@ -105,7 +105,7 @@
             <div class="row">
                <div class="col-md-12">
                   <div class="titlepage">
-                     <h2>What We Do </h2>
+                     <h2>Serviços</h2>
                   </div>
                </div>
             </div>
@@ -115,7 +115,7 @@
                      <div class="col-md-3 col-sm-6">
                         <div class="we_box">
                            <i><img src="<?=BASE_URL?>/app/assets/images/weicon1.png" alt="#"/></i>
-                           <h3>Nail Art</h3>
+                           <h3>Fibra de vidro</h3>
                            <p>Lorem ipsum dolor sit amet, consectetur </p>
                         </div>
                      </div>
@@ -136,7 +136,7 @@
                      <div class="col-md-3 col-sm-6">
                         <div class="we_box">
                            <i><img src="<?=BASE_URL?>/app/assets/images/weicon4.png" alt="#"/></i>
-                           <h3>Paraffin wax</h3>
+                           <h3>Unha em Gel</h3>
                            <p>Lorem ipsum dolor sit amet, consectetur </p>
                         </div>
                      </div>
@@ -152,9 +152,9 @@
             <div class="row d_flex">
                <div class="col-md-6">
                   <div class="titlepage">
-                     <h2>About Us</h2>
+                     <h2>Sobre nós</h2>
                      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation</p>
-                     <a class="read_more" href="Javascript:void(0)"> Read More</a>
+                     <a class="read_more" href="Javascript:void(0)"> Leia mais</a>
                   </div>
                </div>
                <div class="col-md-6">
@@ -173,7 +173,7 @@
             <div class="row">
                <div class="col-md-12">
                   <div class="titlepage">
-                     <h2>Meet Our Experts</h2>
+                     <h2>Conheça nossos profissionais</h2>
                   </div>
                </div>
             </div>
