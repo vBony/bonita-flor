@@ -265,17 +265,6 @@ button {
      position: relative;
 }
 
-.logo::before {
-     position: absolute;
-     content: "";
-     background-color: #2e2d2d;
-     width: 385px;
-     height: 86px;
-     left: -75px;
-     top: -24px;
-}
-
-
 /*-- navigation--*/
 
 .navigation.navbar {
@@ -338,15 +327,6 @@ ul.social_icon li a:hover {
 
 
 /** banner section **/
-
-.banner_main::before {
-     position: absolute;
-     content: "";
-     background-color: #2e2d2d;
-     width: 370px;
-     height: 764px;
-     left: 0;
-}
 
 .banner1 {
      position: relative;
