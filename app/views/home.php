@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html>
 <html lang="en">
    <head>
@@ -56,13 +55,13 @@
                         <div class="collapse navbar-collapse" id="navbarsExample04">
                            <ul class="navbar-nav mr-auto">
                               <li class="nav-item active">
-                                 <a class="nav-link" href="index.html">Início</a>
+                                 <a class="nav-link" href="#">Início</a>
                               </li>
                               <li class="nav-item">
-                                 <a class="nav-link" href="about.html">Sobre</a>
+                                 <a class="nav-link" href="#">Sobre</a>
                               </li>
                               <li class="nav-item">
-                                 <a class="nav-link" href="we-do.html">Serviços</a>
+                                 <a class="nav-link" href="#">Serviços</a>
                               </li>
                            </ul>
                         </div>
