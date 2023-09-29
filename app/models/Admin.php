@@ -1,47 +1,178 @@
 <?php
+namespace models;
+
+use core\controllerHelper;
+use core\modelHelper;
+use helpers\UploadFile;
+use \PDO;
+use \PDOException;
+use core\sanitazerHelper as Sanitazer;
+
+/**
+ * TODO
+ * - Adicionar o telefone insert e update
+ */
 class Admin extends modelHelper{
 
-    public function getAllData($id){
-        $sql = 'SELECT * FROM admins WHERE id = :id';
-        $sql = $this->db->prepare($sql);
-        $sql->bindValue(':id', $id);
-        $sql->execute();
+    public $table = 'admin';
 
-        foreach($sql as $dados);
-
-        return $dados;
+    public function __construct()
+    {
+        parent::__construct();
     }
 
-    public function registerAdmin($name, $email, $password, $token, $ip){
-        $name = ucwords(strtolower($name));
+    private $UM_REGISTRO = 'one';
+    private $MULTIPLOS_REGISTROS = 'all';
+    public static $FOTO_PERFIL_PADRAO = 'default.png';
+    public static $CAMINHO_FOTO_PADRAO = 'app/assets/profile_pics/';
 
-        $first_name = explode(' ', $name);
-        $first_name = $first_name[0];   
+    private $camposSeguros = "
+        id, 
+        nome, 
+        foto, 
+        descricao, 
+        telefone, 
+        email, 
+        dataCriacao, 
+        excluido, 
+        ultimoAcesso
+    ";
 
-        $email = strtolower($email);
-        $password = md5($password);
-        $securityCode = $this->securityCodeGenerator();
-        $admin_hierarchy = 'normal';
-        $first_connection = '1';
-        $admin_ip = $ip;
+    private $campos = "
+        id, 
+        nome, 
+        foto, 
+        descricao, 
+        telefone, 
+        email, 
+        dataCriacao, 
+        excluido, 
+        ultimoAcesso,
+        senha
+    ";
 
+    public function buscar($id = null){
+        $sql  = "SELECT 
+                    {$this->camposSeguros}
+                FROM {$this->table}
+                WHERE excluido = 0 ";
         
+        if(!empty($id)){
+            $sql .= "AND id = :id";
+        }
 
-
-        $sql = "INSERT INTO admins(name, first_name, email, senha, last_ip_connection, security_code, admin_hierarchy, first_connection)
-                VALUES (:name, :first_name, :email, :senha, :ip, :sc, :adminhi, :fc)";
         $sql = $this->db->prepare($sql);
-        $sql->bindValue(':name', $name);
-        $sql->bindValue(':first_name', $first_name);
-        $sql->bindValue(':email', $email);
-        $sql->bindValue(':senha', $password);
-        $sql->bindValue(':ip', $admin_ip);
-        $sql->bindValue(':sc', $securityCode);
-        $sql->bindValue(':adminhi', $admin_hierarchy);
-        $sql->bindValue(':fc', $first_connection);
+
+        if(!empty($id)){
+            $sql->bindValue(':id', $id);
+        }
+
         $sql->execute();
 
-        return true;
+        if($sql->rowCount() > 0){
+            if(!empty($id)){
+                $data = $this->complementarRegistros($sql->fetch(PDO::FETCH_ASSOC), $this->UM_REGISTRO);
+                return $data;
+            }else{
+                $data = $this->complementarRegistros($sql->fetchAll(PDO::FETCH_ASSOC), $this->MULTIPLOS_REGISTROS);
+                return $data;
+            }
+        }
+    }
+
+    public function buscarPorEmail($email, $excecaoAdmin = null){
+        $sql  = "SELECT {$this->camposSeguros} FROM {$this->table} WHERE email = :email  AND excluido = 0 ";
+
+        if(!empty($excecaoAdmin)){
+            $sql .= "AND id != :id ";
+        }
+
+        $sql  = $this->db->prepare($sql);
+        $sql->bindValue(':email', strtolower($email));
+
+        if(!empty($excecaoAdmin)){
+            $sql->bindValue(':id', strtolower($excecaoAdmin));
+        }
+
+        $sql->execute();
+
+        if($sql->rowCount() > 0){
+           return $sql->fetch(PDO::FETCH_ASSOC);
+        }
+    }
+
+    public function buscarPorEmailNaoSeguro($email){
+        $sql = "SELECT {$this->campos} FROM {$this->table} WHERE email = :email AND excluido = 0 ";
+        $sql = $this->db->prepare($sql);
+        $sql->bindValue(':email', strtolower($email));
+        $sql->execute();
+
+        if($sql->rowCount() > 0){
+           return $sql->fetch(PDO::FETCH_ASSOC);
+        }
+    }
+
+    public function cadastrar($data){
+        $sql = "INSERT INTO {$this->table}
+        (nome, email, senha)
+        VALUES(:nome, :email, :senha);";
+
+        $sql = $this->db->prepare($sql);
+        $sql->bindValue(':nome', Sanitazer::nomeCompleto($data['nome']));
+        $sql->bindValue(':email',  Sanitazer::email($data['email']));
+        $sql->bindValue(':senha', password_hash($data['senha'], PASSWORD_BCRYPT));
+
+        try {
+            $this->db->beginTransaction();
+            $sql->execute();
+            $id = $this->db->lastInsertId(PDO::FETCH_ASSOC);
+            $this->db->commit();
+
+            return $id;
+        } catch(PDOException $e) {
+            $this->db->rollback();
+            return false;
+        }
+    }
+
+    public function alterar($idAdmin, $data){
+        $senha = $data['senha'];
+        
+        $sql = "UPDATE
+                    {$this->table}
+                SET
+                    nome = :nome,
+                    descricao = :descricao,
+                    email = :email ";
+
+        if(!empty($senha)){
+            $sql .= ", senha = :senha "; 
+        }
+
+        $sql .= "WHERE id = :idAdmin";
+
+        // exit($sql);
+
+        $sql = $this->db->prepare($sql);
+        $sql->bindValue(':idAdmin', $idAdmin);
+        $sql->bindValue(':nome', Sanitazer::nomeCompleto($data['nome']));
+        $sql->bindValue(':email', Sanitazer::email($data['email']));
+        $sql->bindValue(':descricao', Sanitazer::texto($data['descricao']));
+
+        if(!empty($senha)){
+            $sql->bindValue(':senha', password_hash($senha, PASSWORD_BCRYPT));
+        }
+
+        try {
+            $this->db->beginTransaction();
+            $sql->execute();
+            $this->db->commit();
+
+            return true;
+        } catch(PDOException $e) {
+            $this->db->rollback();
+            return false;
+        }
     }
 
     private function securityCodeGenerator(){
@@ -72,15 +203,46 @@ class Admin extends modelHelper{
         return $ipaddress;
     }
 
-    public function emailVerifier($email){
-        $sql = 'SELECT email FROM admins WHERE email = :email';
-        $sql = $this->db->prepare($sql);
-        $sql->bindValue(':email', $email);
-        $sql->execute();
+    public function salvarFotoPerfil($idAdmin, $foto){
+        $upload = new UploadFile($foto);
 
-        if($sql->rowCount() > 0){
+        if(empty($foto)){
             return true;
-        }else{
+        }
+
+        $diretorio = $this->diretorioBase().self::$CAMINHO_FOTO_PADRAO;
+
+        $extensao = $upload->getExtension();
+        $nomeArquivo = "$idAdmin.$extensao";
+
+        if($upload->upload($diretorio, $nomeArquivo)){
+            return $this->alterarFotoPerfil($idAdmin, $nomeArquivo);
+        }
+    }
+
+    public function alterarFotoPerfil($idAdmin, $nomeArquivo){
+        $sql = "UPDATE
+                    {$this->table}
+                SET
+                    foto = :foto
+                WHERE
+                    id = :idAdmin";
+
+        $sql = $this->db->prepare($sql);
+        $sql->bindValue(':idAdmin', $idAdmin);
+        $sql->bindValue(':foto', $nomeArquivo);
+
+        try {
+            $this->db->beginTransaction();
+            $sql->execute();
+            $this->db->commit();
+
+            return true;
+        } catch(PDOException $e) {
+            $this->db->rollback();
+
+            echo var_dump($e->getMessage()); exit;
+
             return false;
         }
     }
@@ -98,6 +260,52 @@ class Admin extends modelHelper{
         }else{
             return false;
         }
-
     }
+
+    private function complementarRegistros($data, $tipoData){
+        if($tipoData == $this->UM_REGISTRO){
+            $data['foto'] = $this->validaAvatar($data['foto']);
+        }else{
+            foreach($data as $i => $registro){
+                $data[$i]['foto'] = $this->validaAvatar($registro['foto']);
+            }
+        }
+
+        return $data;
+    }
+
+    public function validaAvatar($nomeArquivo){
+        $ch = new controllerHelper;
+        $bUrl = $ch->baseUrl();
+
+        $caminho = self::$CAMINHO_FOTO_PADRAO.$nomeArquivo;
+
+        if(!file_exists($caminho) || empty($nomeArquivo)){
+            return $bUrl.self::$CAMINHO_FOTO_PADRAO.self::$FOTO_PERFIL_PADRAO;
+        }else{
+            return $bUrl.$caminho;
+        }
+    }
+
+    public function setTokenPorId($id, $token){
+        $sql = "UPDATE admin SET token = :token WHERE id = :id";
+        $sql = $this->db->prepare($sql);
+        $sql->bindValue(':token', $token);
+        $sql->bindValue(':id', $id);
+        $sql->execute();
+
+        return true;
+    }
+
+    public function buscarPorToken($token){
+        $sql = "SELECT {$this->camposSeguros} FROM admin WHERE token = :token";
+        $sql = $this->db->prepare($sql);
+        $sql->bindValue(':token', $token);
+        $sql->execute();
+
+        if($sql->rowCount() > 0){
+            return $sql->fetch(PDO::FETCH_ASSOC);
+         }
+    }
+
 }
