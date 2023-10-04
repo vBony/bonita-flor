@@ -26,4 +26,16 @@ class sanitazerHelper {
 
         return trim($str);
     }
+
+    public static function boolVal($str){
+        if($str === true){
+            return true;
+        }elseif($str === 'true'){
+            return true;
+        }elseif($str === 1){
+            return  true;
+        }else{
+            return false;
+        }
+    }
 }
