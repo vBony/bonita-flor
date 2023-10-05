@@ -18,6 +18,9 @@ class agendamentoController extends controllerHelper {
     public function apiIndex(){
         $sistema = $this->mSistema->buscar();
 
+        $response['sistema'] = $sistema;
+
+
         $this->send(200, $sistema);
     }
 }

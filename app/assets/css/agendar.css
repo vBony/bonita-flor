@@ -1,0 +1,108 @@
+h1 {
+    font-size: 40px;
+    font-weight: 500;
+    color: #2e2d2d;
+}
+
+.text-gold {
+    color: gold !important;
+}
+
+.btn-menu{
+    background-color: #f8f9fa !important;
+    color: #2e2d2d;
+    font-weight: bolder;
+}
+
+.btn-menu:hover{
+    background-color: #2e2d2d !important;
+    color: white;
+}
+
+.btn:focus,.btn:active {
+    outline: none !important;
+    box-shadow: none;
+}
+
+.card-margin {
+    margin-bottom: 1.875rem;
+}
+
+.card {
+    border: 0;
+    box-shadow: 0px 0px 10px 0px rgba(82, 63, 105, 0.1);
+    -webkit-box-shadow: 0px 0px 10px 0px rgba(82, 63, 105, 0.1);
+    -moz-box-shadow: 0px 0px 10px 0px rgba(82, 63, 105, 0.1);
+    -ms-box-shadow: 0px 0px 10px 0px rgba(82, 63, 105, 0.1);
+}
+
+.card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #ffffff;
+    background-clip: border-box;
+    border: 1px solid #e6e4e9;
+    border-radius: 8px;
+}
+
+.input-search{
+    position: relative;
+}
+
+.input-search .fa-search{
+    position: absolute;
+    top:20px;
+    left: 20px;
+    color: #9ca3af;
+}
+
+.input-search span{
+    position: absolute;
+    right: 17px;
+    top: 13px;
+    padding: 2px;
+}
+
+.search-element{
+    height: 55px;
+    text-indent: 33px;
+    border-radius: 10px;
+}
+
+.search-element:focus{
+    box-shadow: none;
+    border: 1px solid #2e2d2d !important;
+}
+
+hr.divider {
+    border: 0;
+    height: 1px;
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+}
+
+/* Classes que alteram o estilo do bootstrap */
+.accordion-header{
+    padding-bottom: 0px !important;
+}
+
+.accordion-button:focus,.accordion-button:active {
+    outline: none !important;
+    box-shadow: none;
+}
+
+.accordion-button:not(.collapsed){
+    color: #2e2d2d !important;
+    font-weight: bold !important;
+    background-color: white !important;
+}
+
+.accordion-button:not(.collapsed)::after{
+    filter: grayscale(100%) !important;
+}
+
+.accordion-button::after{
+    color: #2e2d2d;
+}

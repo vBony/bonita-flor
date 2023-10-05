@@ -51,6 +51,10 @@ class Categoria extends modelHelper{
         }
     }
 
+    public function buscarComServicos(){
+        // TODO REALIZAR A BUSCA DAS CATEGORIAS E INSERIR OS SERVICOS
+    }
+
     public function buscarPorDescricao($descricao, $idExcecao = null){
         $sql = "SELECT * FROM categoria c WHERE c.descricao = :descricao AND excluido = 0 ";
 
@@ -123,6 +127,23 @@ class Categoria extends modelHelper{
             $this->db->rollback();
             return false;
         }
+    }
+
+    private function setMapeamento($dados){
+        $registro = parent::mapear($dados, self::$sufix);
+        $registro['servicos'] = parent::mapear($dados, Servico::$sufix);
+
+        return array_filter($registro);
+    }
+
+    private function setMapeamentoLista($dados){
+        $lista = array();
+
+        foreach($dados as $chave => $dado){
+            $lista[$chave] = $this->setMapeamento($dado);
+        }
+
+        return $lista;
     }
 
     public static function getColunas(){

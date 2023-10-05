@@ -22,11 +22,20 @@
     <link rel="stylesheet" href="<?=BASE_URL?>app/assets/css/responsive.css">
     <!-- fevicon -->
     <link rel="icon" href="images/fevicon.png" type="image/gif" />
+
+    <!-- style css -->
+    <link rel="stylesheet" href="<?=BASE_URL?>app/assets/css/home.css">
+    <link rel="stylesheet" href="<?=BASE_URL?>app/assets/css/agendar.css">
+
+
     <!-- Scrollbar Custom CSS -->
     <link rel="stylesheet" href="<?=BASE_URL?>app/assets/css/jquery.mCustomScrollbar.min.css">
     <!-- Tweaks for older IEs-->
-    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">
+
+
+    <script src="<?=BASE_URL?>app/assets/js/bootstrap.js"></script>
 
     <script src="<?=BASE_URL?>app/assets/js/jquery.js"></script>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
@@ -35,10 +44,72 @@
 <body>
     <div id="app">
         <div class="container container-fluid">
+            <div class="row py-4 my-4">
+                <div class="col-12">
+                    <h2>Maria Flor 🌷</h2>
+                    <h4 class="text-muted">
+                        {{sistema.endereco.logradouro}}, 
+                        {{sistema.endereco.complemento + ','}} 
+                        nº{{sistema.endereco.numero}} 
+                        {{sistema.endereco.bairro}},
+                        {{sistema.endereco.cidade}} - {{sistema.endereco.estado}}
+                    </h4>
+                    <div class="btn btn-light" role="button">
+                        <div class="fw-bold d-flex align-items-center">
+                            <i class="fa-solid fa-star text-gold mb-1 me-1"></i> 
+                            5,0
+                            <div class="ms-4 text-muted">10 avaliações</div>
+                        </div>
+                    </div>
+
+                    <hr class="divider mt-3 mb-2">
+                </div>
+
+
+                <div class="col-12">
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                        <button type="button" class="btn btn-menu">
+                            <i class="fa-solid fa-circle-info"></i>
+                            Informações
+                        </button>
+                    </div>
+                </div>
+            </div>
+
             <div class="row">
-                <div class="col-12 py-4 my-4">
-                    <h1>Studio Maria Flor 🌷</h1>
-                    <h4 class="text-muted">{{sistema.endereco.logradouro}}, {{sistema.endereco.numero}}</h4>
+                <div class="col-12"><h1>Agendamento</h1></div>
+                <div class="col-12">
+                    <div class="card card-margin">
+                        <div class="card-body p-4">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="input-search">
+                                        <i class="fa fa-search"></i>
+                                        <input type="text" class="form-control search-element" placeholder="Buscar Serviço">
+                                    </div>
+                                </div>
+
+                                <div class="col-12 mt-4">
+                                    <h2>Categorias</h2>
+
+                                    <div class="accordion accordion-flush" id="categorias">
+                                        <div class="accordion-item">
+                                            <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                                                    Accordion Item #1
+                                                </button>
+                                            </h2>
+                                            <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+                                                <div class="accordion-body">
+                                                    <strong>This is the first item's accordion body.</strong> It is shown by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
