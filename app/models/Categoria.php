@@ -9,6 +9,7 @@ use \PDOException;
 
 class Categoria extends modelHelper{
 
+    public $Servico;
     public $table = 'categoria';
     public static $sufix = 'cat';
     public static $attrs = [
@@ -20,6 +21,7 @@ class Categoria extends modelHelper{
     public function __construct()
     {
         parent::__construct();
+        $this->Servico = new Servico();
     }
 
     public function buscar($id = null){
@@ -42,17 +44,20 @@ class Categoria extends modelHelper{
 
         if($sql->rowCount() > 0){
             if(!empty($id)){
-                $data = $sql->fetch(PDO::FETCH_ASSOC);
-                return $data;
+                $registro = $sql->fetch(PDO::FETCH_ASSOC);
+                $registro['servicos'] = $this->Servico->buscarPorCategoria($registro['id']);
+
+                return $registro;
             }else{
-                $data = $sql->fetchAll(PDO::FETCH_ASSOC);
-                return $data;
+                $registros = $sql->fetchAll(PDO::FETCH_ASSOC);
+
+                foreach($registros as $i => $registro){
+                    $registros[$i]['servicos'] = $this->Servico->buscarPorCategoria($registro['id']);
+                }
+
+                return $registros;
             }
         }
-    }
-
-    public function buscarComServicos(){
-        // TODO REALIZAR A BUSCA DAS CATEGORIAS E INSERIR OS SERVICOS
     }
 
     public function buscarPorDescricao($descricao, $idExcecao = null){

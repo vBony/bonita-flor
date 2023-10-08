@@ -93,15 +93,17 @@
                                     <h2>Categorias</h2>
 
                                     <div class="accordion accordion-flush" id="categorias">
-                                        <div class="accordion-item">
-                                            <h2 class="accordion-header" id="panelsStayOpen-headingOne">
-                                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
-                                                    Accordion Item #1
+                                        <div class="accordion-item" v-for="(reg, index) in categorias" :key="index">
+                                            <h2 class="accordion-header" :id="'flushHeader_'+index">
+                                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" :data-bs-target="'#flushCollapse_'+index" aria-expanded="false" :aria-controls="'flushCollapse_'+index">
+                                                {{reg.descricao}}
                                                 </button>
                                             </h2>
-                                            <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+                                            <div :id="'flushCollapse_'+index" class="accordion-collapse collapse" :aria-labelledby="'flushHeader_'+index" data-bs-parent="#categorias">
                                                 <div class="accordion-body">
-                                                    <strong>This is the first item's accordion body.</strong> It is shown by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+                                                    <ul>
+                                                        <li v-for="(servico, index) in reg.servicos" :key="index"> {{servico.nome}}</li>
+                                                    </ul>
                                                 </div>
                                             </div>
                                         </div>
@@ -138,7 +140,9 @@
                             cidade: null,
                             estado: null,
                         }
-                    }
+                    },
+
+                    categorias: []
                 }
             },
             
@@ -153,8 +157,12 @@
                         url: `${this.BASE_URL}api/agendamento`,
                         dataType: 'json',
                         success: (data) => {
-                            if(data.endereco != null){
-                                this.sistema.endereco = data.endereco
+                            if(data.sistema.endereco != null && data.sistema.endereco != undefined){
+                                this.sistema.endereco = data.sistema.endereco
+                            }
+                            
+                            if(data.categorias !== undefined && data.categorias !== null){
+                                this.categorias = data.categorias
                             }
                         },
                         error: (error) => {
