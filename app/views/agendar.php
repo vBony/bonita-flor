@@ -39,6 +39,7 @@
 
     <script src="<?=BASE_URL?>app/assets/js/jquery.js"></script>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js'></script>
 </head>
 
 <body>
@@ -133,11 +134,16 @@
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-body">
-                        ...
+                        <div class="row">
+                            <div class="col-12">
+                                <div id='calendar'></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+
     </div>
 
     <script src="<?=BASE_URL?>app/assets/js/bootstrap.bundle.min.js"></script>    
@@ -153,6 +159,7 @@
             data() {
                 return {
                     BASE_URL: $('#burl').val(),
+                    calendar: null,
                     sistema: {
                         endereco: {
                             cep: null,
@@ -176,6 +183,13 @@
             
             mounted(){
                 this.buscarDados()
+
+                var calendarEl = document.getElementById('calendar');
+                this.calendar = new FullCalendar.Calendar(calendarEl, {
+                    initialView: 'dayGridMonth'
+                });
+
+                this.calendar.render();
             },
 
             methods:{
@@ -209,6 +223,10 @@
 
                 criarAgendamento() {
                     $("#agendamento").modal("show")
+
+                    setTimeout(() => {
+                        this.calendar.updateSize()
+                    }, 200);
                 }
             }
         }
