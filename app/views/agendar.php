@@ -101,9 +101,12 @@
                                             </h2>
                                             <div :id="'flushCollapse_'+index" class="accordion-collapse collapse" :aria-labelledby="'flushHeader_'+index" data-bs-parent="#categorias">
                                                 <div class="accordion-body">
-                                                    <ul>
-                                                        <li v-for="(servico, index) in reg.servicos" :key="index"> {{servico.nome}}</li>
-                                                    </ul>
+                                                    <div class="form-check py-2 servicos" v-for="(servico, index) in reg.servicos" :key="index">
+                                                        <input class="form-check-input" type="checkbox" @change="adicionarServico(servico.id)" v-model="agendamento.servicos" :value="servico.id" :id="'servico_'+servico.id">
+                                                        <label class="form-check-label" :for="'servico_'+servico.id">
+                                                            {{servico.nome}}
+                                                        </label>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -142,7 +145,12 @@
                         }
                     },
 
-                    categorias: []
+                    categorias: [],
+
+                    agendamento: {
+                        admin: [],
+                        servicos: []
+                    }
                 }
             },
             
@@ -170,6 +178,13 @@
                             this.adminServicos.push(obj);
                         }
                     });
+                },
+
+                adicionarServico(id){
+                    let element = $('#servico_'+id)
+                    element.trigger('click');
+
+                    console.log(this.agendamento.servicos)
                 }
             }
         }
