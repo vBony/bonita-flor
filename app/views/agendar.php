@@ -118,6 +118,26 @@
                 </div>
             </div>
         </div>
+        <div class="row px-3 fixed-bottom d-flex justify-content-center" v-if="agendamento.servicos.length > 0">
+            <div class="p-3 col-lg-2 col-md-6 col-sm-12 d-flex flex-row align-items-center card mb-2">
+                <div class="col-6">
+                    <h5 class="m-0">{{agendamento.servicos.length}} Serviços</h5>
+                    <a href="#" class="text-muted p-0" @click="agendamento.servicos = []"><i class="fa-regular fa-circle-xmark"></i> Limpar Serviços</a>
+                </div>
+                <div class="d-flex col-6">
+                    <button class="btn btn-primary ms-auto" @click="criarAgendamento()">Agendar <i class="fa-solid fa-right-long"></i></button>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="agendamento" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        ...
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script src="<?=BASE_URL?>app/assets/js/bootstrap.bundle.min.js"></script>    
@@ -182,9 +202,13 @@
 
                 adicionarServico(id){
                     let element = $('#servico_'+id)
-                    element.trigger('click');
+                    
 
                     console.log(this.agendamento.servicos)
+                },
+
+                criarAgendamento() {
+                    $("#agendamento").modal("show")
                 }
             }
         }
