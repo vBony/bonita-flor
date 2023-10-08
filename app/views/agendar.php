@@ -120,7 +120,7 @@
             </div>
         </div>
         <div class="row px-3 fixed-bottom d-flex justify-content-center" v-if="agendamento.servicos.length > 0">
-            <div class="p-3 col-lg-2 col-md-6 col-sm-12 d-flex flex-row align-items-center card mb-2">
+            <div class="p-3 col-lg-4 col-md-6 col-sm-12 d-flex flex-row align-items-center card mb-2">
                 <div class="col-6">
                     <h5 class="m-0">{{agendamento.servicos.length}} Serviços</h5>
                     <a href="#" class="text-muted p-0" @click="agendamento.servicos = []"><i class="fa-regular fa-circle-xmark"></i> Limpar Serviços</a>
@@ -186,7 +186,15 @@
 
                 var calendarEl = document.getElementById('calendar');
                 this.calendar = new FullCalendar.Calendar(calendarEl, {
-                    initialView: 'dayGridMonth'
+                    initialView: 'dayGridMonth',
+                    locale: 'pt-br',
+                    buttonText:{
+                        today:    'Hoje',
+                        month:    'Mês',
+                        week:     'Semana',
+                        day:      'Dia',
+                        list:     'Lista'
+                    }
                 });
 
                 this.calendar.render();
