@@ -83,7 +83,7 @@ hr.divider {
     background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
 }
 
-/* Classes que alteram o estilo do bootstrap */
+/* =================== Classes que alteram o estilo do bootstrap =================== */
 .accordion-header{
     padding-bottom: 0px !important;
 }
@@ -105,4 +105,38 @@ hr.divider {
 
 .accordion-button::after{
     color: #2e2d2d;
+}
+
+/* =================== Classes que alteram o datepicker =================== */
+.datepicker {
+    width: 100% !important;
+    min-width: 15.75rem !important;
+}
+
+.datepicker-main {
+    width: 100% !important;
+}
+
+.datepicker-view {
+    width: 100% !important;
+    min-width: 15.75rem !important;
+}
+
+/* Estilo para os dias bloqueados */
+.datepicker-cell.disabled {
+    text-decoration: line-through !important;
+    cursor: not-allowed;
+    color: #ff000073 !important; 
+}
+
+/* Estilo para os dias do mes selecionado */
+.datepicker-cell.day:not(.disabled, .next, .prev){
+    color: #2e2d2d;
+    font-weight: bolder;
+}
+
+/* Estilo para os dias do mes anterior e proximo */
+.datepicker-cell.day:is(.next, .prev):not(.disabled){
+    color: #2e2d2d54;
+    font-weight: bolder;
 }

@@ -3,7 +3,7 @@ namespace helpers;
 use core\modelHelper;
 use \DateTime;
 
-class DateHelper{
+class Date{
     public function diferencaDatasPorExtenso($dataFinal, $tipo = 'restante'){
         $agora = (new modelHelper())->createdAt();
 
@@ -45,6 +45,23 @@ class DateHelper{
         }
 
         return $restanteValidade;
+    }
+
+    public function now(){
+        return date('Y/m/d');
+    }
+
+    public function addDays($date = null, $days){
+        date_default_timezone_set('America/Sao_Paulo');
+
+        if(empty($date)){
+            $date = $this->now();
+        }
+
+        $date = strtotime($date);
+        $date = strtotime("+ $days day", $date);
+
+        return date('Y/m/d', $date);
     }
 
     public function dataNormal($data){

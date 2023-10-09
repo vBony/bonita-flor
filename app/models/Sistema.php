@@ -5,11 +5,16 @@ use core\sanitazerHelper;
 use models\SistemaEndereco;
 use models\SistemaHorarios;
 use models\SistemaDiasAtendimento;
+use \DateTime;
+use \DateTimeZone;
+use helpers\Date;
 
 class Sistema extends modelHelper {
     private $mEndereco;
     private $mHorarios;
     private $mDiasAtendimento;
+
+    private $periodoMaxAgendamentoDias = 30;
 
     public function __construct()
     {
@@ -33,7 +38,18 @@ class Sistema extends modelHelper {
 
         $data['diasAtendimento'] = !empty($diasAtendimento) ? $this->intToBoolean($diasAtendimento) : null;
 
+        $data['regras'] = $this->getConfiguracoes();
+
         return $data;
+    }
+
+    public function getConfiguracoes(){
+        $date = new Date();
+
+        $maxDate = $date->addDays(null, $this->periodoMaxAgendamentoDias);
+        $minDate = $date->now();
+        
+        return compact('maxDate', 'minDate');
     }
 
     public function intToBoolean($list){

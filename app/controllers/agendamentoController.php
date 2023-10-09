@@ -24,6 +24,7 @@ class agendamentoController extends controllerHelper {
 
         $response['sistema'] = $sistema;
         $response['categorias'] = $categorias;
+        $response['agenda'] = 
 
 
         $this->send(200, $response);

@@ -40,6 +40,12 @@
     <script src="<?=BASE_URL?>app/assets/js/jquery.js"></script>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js'></script>
+
+    <!-- Date picker -->
+    <link rel="stylesheet" href="<?=BASE_URL?>app/assets/libs/datepicker.min.css">
+    <script src="<?=BASE_URL?>app/assets/libs/datepicker-full.min.js"></script>
+    <link rel="stylesheet" href="<?=BASE_URL?>app/assets/libs/datepicker-bs5.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.3.4/dist/js/locales/pt-BR.js"></script>
 </head>
 
 <body>
@@ -135,6 +141,13 @@
                 <div class="modal-content">
                     <div class="modal-body">
                         <div class="row">
+                            <div class="col-12 d-flex justify-content-between align-items-center">
+                                <h3 class="m-0 p-0">Agendar</h3>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                        </div>
+
+                        <div class="row p-lg-4 p-md-4 p-sm-0 p-xs-0">
                             <div class="col-12">
                                 <div id='calendar'></div>
                             </div>
@@ -169,6 +182,11 @@
                             bairro: null,
                             cidade: null,
                             estado: null,
+                        },
+
+                        regras: {
+                            minDate: null,
+                            maxDate: null
                         }
                     },
 
@@ -177,27 +195,14 @@
                     agendamento: {
                         admin: [],
                         servicos: []
-                    }
+                    },
+
+                    agenda: []
                 }
             },
             
             mounted(){
                 this.buscarDados()
-
-                var calendarEl = document.getElementById('calendar');
-                this.calendar = new FullCalendar.Calendar(calendarEl, {
-                    initialView: 'dayGridMonth',
-                    locale: 'pt-br',
-                    buttonText:{
-                        today:    'Hoje',
-                        month:    'Mês',
-                        week:     'Semana',
-                        day:      'Dia',
-                        list:     'Lista'
-                    }
-                });
-
-                this.calendar.render();
             },
 
             methods:{
@@ -207,6 +212,11 @@
                         url: `${this.BASE_URL}api/agendamento`,
                         dataType: 'json',
                         success: (data) => {
+                            if(data.sistema.regras != undefined && data.sistema.regras != null){
+                                this.sistema.regras = data.sistema.regras
+                                this.initCalendar()
+                            }
+
                             if(data.sistema.endereco != null && data.sistema.endereco != undefined){
                                 this.sistema.endereco = data.sistema.endereco
                             }
@@ -231,12 +241,39 @@
 
                 criarAgendamento() {
                     $("#agendamento").modal("show")
+                },
 
-                    setTimeout(() => {
-                        this.calendar.updateSize()
-                    }, 200);
+                initCalendar(){
+                    min = this.toDate(this.sistema.regras.minDate)
+                    max = this.toDate(this.sistema.regras.maxDate)
+
+                    const elem = document.getElementById('calendar');
+                    this.calendar = new Datepicker(elem, {
+                        pickLevel: 0,
+                        maxView: 0,
+                        language: 'pt-BR',
+                        todayHighlight: true,
+                        todayButtonMode: 'select',
+                        minDate: min,
+                        maxDate: max
+                    }); 
+                },
+
+                toDate(date){
+                    // Sua data no formato 'YYYY/MM/DD'
+                    var dataString = date;
+
+                    // Divida a string da data em ano, mês e dia
+                    var partesData = dataString.split('/');
+                    var ano = partesData[0];
+                    var mes = partesData[1];
+                    var dia = partesData[2];
+
+                    // Crie uma nova string de data no formato 'DD/MM/YYYY'
+                    return dia + '/' + mes + '/' + ano;
                 }
-            }
+            },
+
         }
 
         createApp(app).mount('#app')
