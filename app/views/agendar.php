@@ -187,6 +187,16 @@
                         regras: {
                             minDate: null,
                             maxDate: null
+                        },
+
+                        diasAtendimento: {
+                            domingo: false,
+                            segunda: false,
+                            terca: false,
+                            quarta: false,
+                            quinta: false,
+                            sexta: false,
+                            sabado: false,
                         }
                     },
 
@@ -214,16 +224,21 @@
                         success: (data) => {
                             if(data.sistema.regras != undefined && data.sistema.regras != null){
                                 this.sistema.regras = data.sistema.regras
-                                this.initCalendar()
                             }
 
                             if(data.sistema.endereco != null && data.sistema.endereco != undefined){
                                 this.sistema.endereco = data.sistema.endereco
                             }
+
+                            if(data.sistema.diasAtendimento != null && data.sistema.diasAtendimento != undefined){
+                                this.sistema.diasAtendimento = data.sistema.diasAtendimento
+                            }
                             
                             if(data.categorias !== undefined && data.categorias !== null){
                                 this.categorias = data.categorias
                             }
+
+                            this.initCalendar()
                         },
                         error: (error) => {
                             alert("Falha ao excluir o serviço, tente novamente mais tarde")
@@ -244,8 +259,9 @@
                 },
 
                 initCalendar(){
-                    min = this.toDate(this.sistema.regras.minDate)
-                    max = this.toDate(this.sistema.regras.maxDate)
+                    let min = this.toDate(this.sistema.regras.minDate)
+                    let max = this.toDate(this.sistema.regras.maxDate)
+                    let diasFolga = this.daysOfWeekDisabled()
 
                     const elem = document.getElementById('calendar');
                     this.calendar = new Datepicker(elem, {
@@ -255,7 +271,8 @@
                         todayHighlight: true,
                         todayButtonMode: 'select',
                         minDate: min,
-                        maxDate: max
+                        maxDate: max,
+                        daysOfWeekDisabled: diasFolga
                     }); 
                 },
 
@@ -271,6 +288,41 @@
 
                     // Crie uma nova string de data no formato 'DD/MM/YYYY'
                     return dia + '/' + mes + '/' + ano;
+                },
+
+                daysOfWeekDisabled(){
+                    let semana = this.sistema.diasAtendimento
+                    let dias = []
+
+                    if(semana.domingo == false){
+                        dias.push(0)
+                    }
+
+                    if(semana.segunda == false){
+                        dias.push(1)
+                    }
+
+                    if(semana.terca == false){
+                        dias.push(2)
+                    }
+
+                    if(semana.quarta == false){
+                        dias.push(3)
+                    }
+
+                    if(semana.quinta == false){
+                        dias.push(4)
+                    }
+
+                    if(semana.sexta == false){
+                        dias.push(5)
+                    }
+
+                    if(semana.sabado == false){
+                        dias.push(6)
+                    }
+
+                    return dias
                 }
             },
 
