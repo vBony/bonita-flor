@@ -149,7 +149,7 @@
 
                         <div class="row p-lg-4 p-md-4 p-sm-0 p-xs-0">
                             <div class="col-12">
-                                <div id='calendar'></div>
+                                <div id='calendar' data-date="09/10/2023"></div>
                             </div>
                         </div>
                     </div>
@@ -274,6 +274,11 @@
                         maxDate: max,
                         daysOfWeekDisabled: diasFolga
                     }); 
+
+                    elem.addEventListener('changeDate', (e) => {
+                        let dataSelecionada = this.calendar.getDate('yyyy/mm/dd')
+                        this.selecionouData(dataSelecionada);
+                    })
                 },
 
                 toDate(date){
@@ -323,6 +328,10 @@
                     }
 
                     return dias
+                },
+
+                selecionouData(data){
+                    alert(data)
                 }
             },
 
