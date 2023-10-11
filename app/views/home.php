@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html>
 <html lang="en">
    <head>
@@ -10,7 +9,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <meta name="viewport" content="initial-scale=1, maximum-scale=1">
       <!-- site metas -->
-      <title>Bonita Flor 🌷</title>
+      <title>Maria Flor 🌷</title>
       <meta name="keywords" content="">
       <meta name="description" content="">
       <meta name="author" content="">
@@ -43,7 +42,7 @@
                      <div class="full">
                         <div class="center-desk">
                            <div class="logo">
-                              <h1>BONITA FLOR 🌷</h1> 
+                              <h1>MARIA FLOR 🌷</h1> 
                            </div>
                         </div>
                      </div>
@@ -56,13 +55,13 @@
                         <div class="collapse navbar-collapse" id="navbarsExample04">
                            <ul class="navbar-nav mr-auto">
                               <li class="nav-item active">
-                                 <a class="nav-link" href="index.html">Início</a>
+                                 <a class="nav-link" href="#">Início</a>
                               </li>
                               <li class="nav-item">
-                                 <a class="nav-link" href="about.html">Sobre</a>
+                                 <a class="nav-link" href="#">Sobre</a>
                               </li>
                               <li class="nav-item">
-                                 <a class="nav-link" href="we-do.html">Serviços</a>
+                                 <a class="nav-link" href="#">Serviços</a>
                               </li>
                            </ul>
                         </div>
@@ -72,7 +71,6 @@
                      <ul class="social_icon">
                         <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
                         <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                        <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
                         <li><a href="https://www.instagram.com/anna.julia_nails/?hl=pt-br"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
                      </ul>
                   </div>
@@ -112,31 +110,38 @@
             <div class="row">
                <div class="col-lg-10 offset-lg-1 col-md-12">
                   <div class="row">
-                     <div class="col-md-3 col-sm-6">
+                     <div class="col-md-4 col-sm-6">
                         <div class="we_box">
-                           <i><img src="<?=BASE_URL?>/app/assets/images/weicon1.png" alt="#"/></i>
-                           <h3>Fibra de vidro</h3>
+                           <i><img class="cilios" src="<?=BASE_URL?>/app/assets/images/cilios.jpg" alt="#"/></i>
+                           <h3>Extensão de Cílios</h3>
                            <p>Lorem ipsum dolor sit amet, consectetur </p>
                         </div>
                      </div>
-                     <div class="col-md-3 col-sm-6">
+                     <div class="col-md-4 col-sm-6">
                         <div class="we_box">
                            <i><img src="<?=BASE_URL?>/app/assets/images/weicon2.png" alt="#"/></i>
                            <h3>Manicure</h3>
                            <p>Lorem ipsum dolor sit amet, consectetur </p>
                         </div>
                      </div>
-                     <div class="col-md-3 col-sm-6">
+                     <div class="col-md-4 col-sm-6">
                         <div class="we_box">
                            <i><img src="<?=BASE_URL?>/app/assets/images/weicon3.png" alt="#"/></i>
                            <h3>Pedicure</h3>
                            <p>Lorem ipsum dolor sit amet, consectetur </p>
                         </div>
                      </div>
-                     <div class="col-md-3 col-sm-6">
+                     <div class="col-md-4 offset-lg-2 col-sm-6">
                         <div class="we_box">
-                           <i><img src="<?=BASE_URL?>/app/assets/images/weicon4.png" alt="#"/></i>
-                           <h3>Unha em Gel</h3>
+                           <i><img src="<?=BASE_URL?>/app/assets/images/weicon1.png" alt="#"/></i>
+                           <h3>Fibra de vidro</h3>
+                           <p>Lorem ipsum dolor sit amet, consectetur </p>
+                        </div>
+                     </div>
+                     <div class="col-md-4 offset-lg-0 col-sm-6">
+                        <div class="we_box">
+                           <i><img class="sobrancelha" src="<?=BASE_URL?>/app/assets/images/sobrancelha.jpg" alt="#"/></i>
+                           <h3>Sobrancelha</h3>
                            <p>Lorem ipsum dolor sit amet, consectetur </p>
                         </div>
                      </div>
@@ -146,27 +151,6 @@
          </div>
       </div>
       <!-- end what we do  -->
-      <!-- about -->
-      <div class="about slin2">
-         <div class="container">
-            <div class="row d_flex">
-               <div class="col-md-6">
-                  <div class="titlepage">
-                     <h2>Sobre nós</h2>
-                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation</p>
-                     <a class="read_more" href="Javascript:void(0)"> Leia mais</a>
-                  </div>
-               </div>
-               <div class="col-md-6">
-                  <div class="about_img">
-                     <figure><img src="<?=BASE_URL?>/app/assets/images/about.png" alt="#"/></figure>
-                  </div>
-               </div>
-            </div>
-         </div>
-      </div>
-      <!-- end about -->
-
       <!-- experts -->
       <div  class="experts">
          <div class="container">
@@ -230,7 +214,7 @@
                <div class="container">
                   <div class="row">
                      <div class="col-md-10 offset-md-1">
-                        <p>© 2023 All Rights Reserved. Design by  <a href="https://github.com/bz-software" target="_blank">BZ Software</p>
+                        <p>© 2023 All Rights Reserved. Design by  <a href="https://github.com/bz-software" target="_blank"><u>BZ Software</u></p>
                      </div>
                   </div>
                </div>

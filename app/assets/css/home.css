@@ -161,6 +161,14 @@ img {
      height: auto;
 }
 
+.sobrancelha{
+     max-width: 110px;
+}
+
+.cilios{
+     max-width: 110px;
+}
+
  :focus {
      outline: 0;
 }
