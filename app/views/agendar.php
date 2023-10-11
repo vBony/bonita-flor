@@ -204,7 +204,9 @@
 
                     agendamento: {
                         admin: [],
-                        servicos: []
+                        servicos: [],
+                        data: null,
+                        
                     },
 
                     agenda: []
@@ -274,6 +276,47 @@
                         maxDate: max,
                         daysOfWeekDisabled: diasFolga
                     }); 
+
+                    elem.addEventListener("changeDate", (e)=>{
+                        let dataSelecionada = this.calendar.getDate("yyyy/mm/dd")
+                        
+                        this.selecionouData(dataSelecionada)
+                    })
+
+                },
+
+                selecionouData(data){
+                    this.agendamento.data = data
+                    console.log(this.agendamento);
+
+                    $.ajax({
+                        type: "POST",
+                        url: `${this.BASE_URL}api/agendamento/disponibilidade`,
+                        dataType: 'json',
+                        success: (data) => {
+                            if(data.sistema.regras != undefined && data.sistema.regras != null){
+                                this.sistema.regras = data.sistema.regras
+                            }
+
+                            if(data.sistema.endereco != null && data.sistema.endereco != undefined){
+                                this.sistema.endereco = data.sistema.endereco
+                            }
+
+                            if(data.sistema.diasAtendimento != null && data.sistema.diasAtendimento != undefined){
+                                this.sistema.diasAtendimento = data.sistema.diasAtendimento
+                            }
+                            
+                            if(data.categorias !== undefined && data.categorias !== null){
+                                this.categorias = data.categorias
+                            }
+
+                            this.initCalendar()
+                        },
+                        error: (error) => {
+                            alert("Falha ao excluir o serviço, tente novamente mais tarde")
+                            this.adminServicos.push(obj);
+                        }
+                    });
                 },
 
                 toDate(date){

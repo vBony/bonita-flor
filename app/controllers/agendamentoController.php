@@ -29,4 +29,8 @@ class agendamentoController extends controllerHelper {
 
         $this->send(200, $response);
     }
+
+    public function apiDisponibilidade(){
+        $this->send(200);
+    }
 }
