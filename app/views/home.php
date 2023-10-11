@@ -91,7 +91,7 @@
                   <span></span>
                   <h1>Bonita flor studio</h1>
                   <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempo</p>
-                  <a class="get_btn" href="Javascript:void(0)" role="button">Agendamento</a>
+                  <a class="get_btn" href="<?=BASE_URL?>agendar" role="button">Agendamento</a>
                </div>
             </div>
          </div>
