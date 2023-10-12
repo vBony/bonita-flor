@@ -4,6 +4,18 @@ h1 {
     color: #2e2d2d;
 }
 
+.text-bolder{
+    font-weight: bolder !important;
+}
+
+.text-underline{
+    text-decoration: underline !important;
+}
+
+.cursor-pointer{
+    cursor: pointer !important;
+}
+
 .text-gold {
     color: gold !important;
 }
@@ -84,6 +96,11 @@ hr.divider {
 }
 
 /* =================== Classes que alteram o estilo do bootstrap =================== */
+.form-control:focus {
+    border-color: #ffffff !important;
+    box-shadow: 0 0 0 .2rem rgba(255, 255, 255, .25);
+}
+
 .accordion-header{
     padding-bottom: 0px !important;
 }

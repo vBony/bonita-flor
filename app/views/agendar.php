@@ -109,7 +109,7 @@
                                             <div :id="'flushCollapse_'+index" class="accordion-collapse collapse" :aria-labelledby="'flushHeader_'+index" data-bs-parent="#categorias">
                                                 <div class="accordion-body">
                                                     <div class="form-check py-2 servicos" v-for="(servico, index) in reg.servicos" :key="index">
-                                                        <input class="form-check-input" type="checkbox" @change="adicionarServico(servico.id)" v-model="agendamento.servicos" :value="servico.id" :id="'servico_'+servico.id">
+                                                        <input class="form-check-input" type="checkbox" @change="adicionarServico(servico.id)" v-model="agendamento.servicos" :value="servico" :id="'servico_'+servico.id">
                                                         <label class="form-check-label" :for="'servico_'+servico.id">
                                                             {{servico.nome}}
                                                         </label>
@@ -150,6 +150,53 @@
                         <div class="row p-lg-4 p-md-4 p-sm-0 p-xs-0">
                             <div class="col-12">
                                 <div id='calendar'></div>
+                                <div class="col-12 alert alert-secondary mt-2" v-if="agendamento.data">
+                                    <h4 class="m-0 p-0 text-center">
+                                        Para <b class="m-0 p-0 text-underline"> {{dataComDiaSemana(agendamento.data)}} </b>
+                                    </h4>
+                                </div>
+
+                                <hr class="divider mb-2">
+
+                                <div class="col-12">
+                                    <div class="col-12" v-for="(servicoAgendamento, index) in agendamento.servicos" :key="index">
+                                        <div class="col-12 d-flex justify-content-between align-items-center">
+                                            <h5 class="text-bolder p-0 m-0">{{servicoAgendamento.nome}}</h5>
+                                            <i class="fas fa-trash text-danger cursor-pointer px-2"></i>
+                                        </div>
+                                        <div class="col-12 d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <i class="fas fa-clock me-1"></i>
+                                                Duração: {{servicoAgendamento.duracao}}h
+                                            </div>
+                                            <div><h3 class="text-bolder">{{floatParaReal(servicoAgendamento.preco)}}</h3></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-9 col-md-9 col-sm-12">
+                                                <div class="form-group">
+                                                    <label for="categoriaCadastro">Profissional</label>
+                                                    <select class="form-control form-control-sm">
+                                                        <option selected :value="null"></option>
+                                                        <option>Vinicius</option>
+                                                        <option>Cecília</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3 col-md-3 col-sm-12">
+                                                <div class="form-group">
+                                                    <label for="categoriaCadastro">Horário</label>
+                                                    <select class="form-control form-control-sm">
+                                                        <option selected :value="null"></option>
+                                                        <option>13:30</option>
+                                                        <option>14:30</option>
+                                                        <option>15:30</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr class="divider mb-2">
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -205,8 +252,7 @@
                     agendamento: {
                         admin: [],
                         servicos: [],
-                        data: null,
-                        
+                        data: null
                     },
 
                     agenda: []
@@ -239,8 +285,6 @@
                             if(data.categorias !== undefined && data.categorias !== null){
                                 this.categorias = data.categorias
                             }
-
-                            this.initCalendar()
                         },
                         error: (error) => {
                             alert("Falha ao excluir o serviço, tente novamente mais tarde")
@@ -250,71 +294,67 @@
                 },
 
                 adicionarServico(id){
-                    let element = $('#servico_'+id)
-                    
 
                     console.log(this.agendamento.servicos)
                 },
 
                 criarAgendamento() {
+                    this.initCalendar()
                     $("#agendamento").modal("show")
                 },
 
                 initCalendar(){
+
                     let min = this.toDate(this.sistema.regras.minDate)
                     let max = this.toDate(this.sistema.regras.maxDate)
                     let diasFolga = this.daysOfWeekDisabled()
 
-                    const elem = document.getElementById('calendar');
-                    this.calendar = new Datepicker(elem, {
-                        pickLevel: 0,
-                        maxView: 0,
-                        language: 'pt-BR',
-                        todayHighlight: true,
-                        todayButtonMode: 'select',
-                        minDate: min,
-                        maxDate: max,
-                        daysOfWeekDisabled: diasFolga
-                    }); 
+                    // Só renderiza o calendário uma vez
+                    if(this.calendar == null){
+                        const elem = document.getElementById('calendar');
+                        this.calendar = new Datepicker(elem, {
+                            pickLevel: 0,
+                            maxView: 0,
+                            language: 'pt-BR',
+                            todayHighlight: true,
+                            todayButtonMode: 'select',
+                            minDate: min,
+                            maxDate: max,
+                            daysOfWeekDisabled: diasFolga
+                        }); 
 
-                    elem.addEventListener("changeDate", (e)=>{
-                        let dataSelecionada = this.calendar.getDate("yyyy/mm/dd")
-                        
-                        this.selecionouData(dataSelecionada)
-                    })
+                        elem.addEventListener("changeDate", (e)=>{
+                            let dataSelecionada = this.calendar.getDate("yyyy/mm/dd")
+                            this.selecionouData(dataSelecionada)
+                        })
 
+                        // Iniciando o calendário com a data atual selecionada
+                        this.calendar.setDate(this.getDataAtual())
+                    }else{
+
+                        /** 
+                         * Caso o calendário já tenha sido renderizado, apenas realiza a busca da 
+                         * disponibilidade dos profissionais
+                         */
+                        if(this.agendamento.data !== null){
+                            this.selecionouData(this.agendamento.data)
+                        }
+                    }
                 },
 
                 selecionouData(data){
                     this.agendamento.data = data
-                    console.log(this.agendamento);
 
                     $.ajax({
                         type: "POST",
                         url: `${this.BASE_URL}api/agendamento/disponibilidade`,
+                        data: {agendamento: this.agendamento},
                         dataType: 'json',
                         success: (data) => {
-                            if(data.sistema.regras != undefined && data.sistema.regras != null){
-                                this.sistema.regras = data.sistema.regras
-                            }
-
-                            if(data.sistema.endereco != null && data.sistema.endereco != undefined){
-                                this.sistema.endereco = data.sistema.endereco
-                            }
-
-                            if(data.sistema.diasAtendimento != null && data.sistema.diasAtendimento != undefined){
-                                this.sistema.diasAtendimento = data.sistema.diasAtendimento
-                            }
                             
-                            if(data.categorias !== undefined && data.categorias !== null){
-                                this.categorias = data.categorias
-                            }
-
-                            this.initCalendar()
                         },
                         error: (error) => {
-                            alert("Falha ao excluir o serviço, tente novamente mais tarde")
-                            this.adminServicos.push(obj);
+                            
                         }
                     });
                 },
@@ -366,6 +406,35 @@
                     }
 
                     return dias
+                },
+
+                getDataAtual() {
+                    const data = new Date();
+                    const dia = String(data.getDate()).padStart(2, '0');
+                    const mes = String(data.getMonth() + 1).padStart(2, '0'); // Os meses começam em 0, então adicionamos 1.
+                    const ano = data.getFullYear();
+
+                    return `${dia}/${mes}/${ano}`;
+                },
+
+                dataComDiaSemana(dataString) {
+                    const diasDaSemana = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+                    const partesData = dataString.split('/'); // Supõe-se que a data de entrada esteja no formato "yyyy/mm/dd".
+                    const ano = partesData[0];
+                    const mes = partesData[1] - 1; // Os meses começam em 0, então subtrai 1.
+                    const dia = partesData[2];
+
+                    const data = new Date(ano, mes, dia);
+                    const diaSemana = diasDaSemana[data.getDay()];
+                    const dataFormatada = `${diaSemana}, ${dia.padStart(2, '0')}/${(mes + 1).toString().padStart(2, '0')}/${ano}`;
+
+                    return dataFormatada;
+                },
+
+                floatParaReal(num){
+                    let float = JSON.stringify(num)
+                    float = JSON.parse(float)
+                    return float.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})
                 }
             },
 

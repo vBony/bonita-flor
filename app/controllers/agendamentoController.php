@@ -31,6 +31,10 @@ class agendamentoController extends controllerHelper {
     }
 
     public function apiDisponibilidade(){
+        /**
+         * TODO:
+         * - Buscar os profissionais por serviço disponíveis, as horas disponiveis
+         */
         $this->send(200);
     }
 }
