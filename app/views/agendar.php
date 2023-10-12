@@ -137,15 +137,13 @@
             </div>
         </div>
         <div class="modal fade" id="agendamento" tabindex="-1" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
+            <div class="modal-dialog modal-lg modal-dialog-scrollable">
                 <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="m-0 p-0 modal-title">Agendar</h3>
+                        <button type="button" class="btn-close m-0" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
                     <div class="modal-body">
-                        <div class="row">
-                            <div class="col-12 d-flex justify-content-between align-items-center">
-                                <h3 class="m-0 p-0">Agendar</h3>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                        </div>
 
                         <div class="row p-lg-4 p-md-4 p-sm-0 p-xs-0">
                             <div class="col-12">
@@ -195,6 +193,10 @@
                                             </div>
                                         </div>
                                         <hr class="divider mb-2">
+                                    </div>
+
+                                    <div class="text-end">
+                                        <h3 class="text-bolder">Total: R$9999</h3>
                                     </div>
                                 </div>
                             </div>

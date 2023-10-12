@@ -96,6 +96,10 @@ hr.divider {
 }
 
 /* =================== Classes que alteram o estilo do bootstrap =================== */
+.modal-header{
+    border-bottom: none !important;
+}
+
 .form-control:focus {
     border-color: #ffffff !important;
     box-shadow: 0 0 0 .2rem rgba(255, 255, 255, .25);
