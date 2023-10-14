@@ -24,7 +24,6 @@ class agendamentoController extends controllerHelper {
 
         $response['sistema'] = $sistema;
         $response['categorias'] = $categorias;
-        $response['agenda'] = 
 
 
         $this->send(200, $response);
@@ -35,6 +34,16 @@ class agendamentoController extends controllerHelper {
          * TODO:
          * - Buscar os profissionais por serviço disponíveis, as horas disponiveis
          */
-        $this->send(200);
+        $request = $this->post('agendamento');
+        $servicos = $request['servicos'];
+
+        // Buscando os profissionais disponíveis para atender os serviços selecionados
+        $disponibilidade = array();
+        foreach($servicos as $servico){
+            $servico['admins'] = $this->mSistema->buscarDisponibilidadePorServico($servico['id']);
+            array_push($disponibilidade, $servico);
+        }
+
+        $this->send(200, $disponibilidade);
     }
 }

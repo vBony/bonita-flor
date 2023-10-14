@@ -112,6 +112,28 @@ class Admin extends modelHelper{
         }
     }
 
+    public function buscarPorServico($idServico){
+        $campos = parent::getCamposComSufixo('a', $this->camposSeguros);
+
+        $sql = "SELECT 
+                    {$campos}
+                FROM admin a
+                INNER JOIN adminServico ads ON ads.idAdmin = a.id
+                INNER JOIN servico s ON s.id = ads.idServico
+                WHERE s.excluido = FALSE
+                AND a.excluido = FALSE 
+                AND ads.excluido = FALSE
+                AND s.id = :idServico";
+
+        $sql = $this->db->prepare($sql);
+        $sql->bindValue(':idServico', $idServico);
+        $sql->execute();
+
+        if($sql->rowCount() > 0){
+            return $sql->fetchAll(PDO::FETCH_ASSOC);
+        }
+    }
+
     public function cadastrar($data){
         $sql = "INSERT INTO {$this->table}
         (nome, email, senha)
@@ -307,5 +329,4 @@ class Admin extends modelHelper{
             return $sql->fetch(PDO::FETCH_ASSOC);
          }
     }
-
 }

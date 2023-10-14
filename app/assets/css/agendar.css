@@ -101,8 +101,7 @@ hr.divider {
 }
 
 .form-control:focus {
-    border-color: #ffffff !important;
-    box-shadow: 0 0 0 .2rem rgba(255, 255, 255, .25);
+    border-color: #2e2d2d !important;
 }
 
 .accordion-header{
@@ -111,12 +110,15 @@ hr.divider {
 
 .accordion-button:focus,.accordion-button:active {
     outline: none !important;
-    box-shadow: none;
+    box-shadow: none !important;
 }
 
 .accordion-button:not(.collapsed){
-    color: #2e2d2d !important;
+    outline: none !important;
+    box-shadow: none !important;
+    
     font-weight: bold !important;
+    color: #2e2d2d !important;
     background-color: white !important;
 }
 

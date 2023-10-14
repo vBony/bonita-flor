@@ -43,6 +43,17 @@ class modelHelper{
         return $ipaddress;
     }
 
+    // Padrão <sufixo>.<campo>
+    public static function getCamposComSufixo($sufixo, $campos){
+        $aCampos = explode(',', $campos);
+
+        foreach($aCampos as $i => $sCampo){
+            $aCampos[$i] = $sufixo.".".$sCampo;
+        }
+
+        return implode(',', $aCampos);
+    }
+
     public static function setColunas($sufixo, $atributos){
         $retorno = array();
         foreach($atributos as $atributo){

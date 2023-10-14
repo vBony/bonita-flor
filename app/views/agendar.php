@@ -16,8 +16,6 @@
 
     <!-- bootstrap css -->
     <link rel="stylesheet" href="<?=BASE_URL?>app/assets/css/bootstrap.css">
-    <!-- style css -->
-    <link rel="stylesheet" href="<?=BASE_URL?>app/assets/css/home.css">
     <!-- Responsive-->
     <link rel="stylesheet" href="<?=BASE_URL?>app/assets/css/responsive.css">
     <!-- fevicon -->
@@ -106,10 +104,10 @@
                                                 {{reg.descricao}}
                                                 </button>
                                             </h2>
-                                            <div :id="'flushCollapse_'+index" class="accordion-collapse collapse" :aria-labelledby="'flushHeader_'+index" data-bs-parent="#categorias">
+                                            <div :id="'flushCollapse_'+index" class="accordion-collapse collapse" :aria-labelledby="'flushHeader_'+index">
                                                 <div class="accordion-body">
                                                     <div class="form-check py-2 servicos" v-for="(servico, index) in reg.servicos" :key="index">
-                                                        <input class="form-check-input" type="checkbox" @change="adicionarServico(servico.id)" v-model="agendamento.servicos" :value="servico" :id="'servico_'+servico.id">
+                                                        <input class="form-check-input" type="checkbox" v-model="agendamento.servicos" :value="servico" :id="'servico_'+servico.id">
                                                         <label class="form-check-label" :for="'servico_'+servico.id">
                                                             {{servico.nome}}
                                                         </label>
@@ -153,10 +151,13 @@
                                         Para <b class="m-0 p-0 text-underline"> {{dataComDiaSemana(agendamento.data)}} </b>
                                     </h4>
                                 </div>
+                                <div v-else class="col-12 alert alert-danger mt-2 text-center text-bolder">
+                                    <i class="fa-solid fa-triangle-exclamation me-2"></i> Selecione uma data válida
+                                </div>
 
                                 <hr class="divider mb-2">
 
-                                <div class="col-12">
+                                <div class="col-12" v-if="agendamento.data">
                                     <div class="col-12" v-for="(servicoAgendamento, index) in agendamento.servicos" :key="index">
                                         <div class="col-12 d-flex justify-content-between align-items-center">
                                             <h5 class="text-bolder p-0 m-0">{{servicoAgendamento.nome}}</h5>
@@ -174,9 +175,8 @@
                                                 <div class="form-group">
                                                     <label for="categoriaCadastro">Profissional</label>
                                                     <select class="form-control form-control-sm">
-                                                        <option selected :value="null"></option>
-                                                        <option>Vinicius</option>
-                                                        <option>Cecília</option>
+                                                        <option selected :value="null">Selecione um Profissional</option>
+                                                        <option v-for="(admin, index) in servicoAgendamento.admins" :value="admin.id">{{admin.nome}}</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -295,11 +295,6 @@
                     });
                 },
 
-                adicionarServico(id){
-
-                    console.log(this.agendamento.servicos)
-                },
-
                 criarAgendamento() {
                     this.initCalendar()
                     $("#agendamento").modal("show")
@@ -347,13 +342,15 @@
                 selecionouData(data){
                     this.agendamento.data = data
 
+                    console.log(this.agendamento.data)
+
                     $.ajax({
                         type: "POST",
                         url: `${this.BASE_URL}api/agendamento/disponibilidade`,
                         data: {agendamento: this.agendamento},
                         dataType: 'json',
                         success: (data) => {
-                            
+                            this.agendamento.servicos = data
                         },
                         error: (error) => {
                             
@@ -434,8 +431,11 @@
                 },
 
                 floatParaReal(num){
+                    //Tirando a reatividade da propriedade
                     let float = JSON.stringify(num)
                     float = JSON.parse(float)
+
+                    float = parseFloat(float)
                     return float.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})
                 }
             },

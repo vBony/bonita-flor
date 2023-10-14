@@ -5,6 +5,7 @@ use core\sanitazerHelper;
 use models\SistemaEndereco;
 use models\SistemaHorarios;
 use models\SistemaDiasAtendimento;
+use models\Admin;
 use \DateTime;
 use \DateTimeZone;
 use helpers\Date;
@@ -13,6 +14,7 @@ class Sistema extends modelHelper {
     private $mEndereco;
     private $mHorarios;
     private $mDiasAtendimento;
+    private $mAdmin;
 
     private $periodoMaxAgendamentoDias = 30;
 
@@ -22,6 +24,7 @@ class Sistema extends modelHelper {
         $this->mEndereco = new SistemaEndereco();
         $this->mHorarios = new SistemaHorarios();
         $this->mDiasAtendimento = new SistemaDiasAtendimento();
+        $this->mAdmin = new Admin();
     }
     
     public function buscar(){
@@ -58,5 +61,11 @@ class Sistema extends modelHelper {
         }
 
         return $list;
+    }
+
+    public function buscarDisponibilidadePorServico($idServico){
+        $admins = $this->mAdmin->buscarPorServico($idServico);
+
+        return $admins;
     }
 }
